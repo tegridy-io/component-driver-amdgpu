@@ -1,0 +1,4 @@
+parameters:
+  driver_amdgpu:
+    =_metadata: {}
+    namespace: syn-driver-amdgpu

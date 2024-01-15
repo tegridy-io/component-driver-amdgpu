@@ -1,0 +1,5 @@
+= AMD GPU Driver
+
+driver-amdgpu is a Commodore component to manage AMD GPU Driver.
+
+See the xref:references/parameters.adoc[parameters] reference for further details.

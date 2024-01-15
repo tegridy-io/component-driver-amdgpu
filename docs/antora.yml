@@ -1,0 +1,6 @@
+name: driver-amdgpu
+title: AMD GPU Driver
+version: master
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/partials/nav.adoc
