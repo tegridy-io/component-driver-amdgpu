@@ -46,4 +46,4 @@ parameters:
         helm_values: ${driver_amdgpu:helmValues:amdgpu}
         helm_params:
           name: amd-gpu
-          namespace: ${driver_amdgpu:namespace:name}
+          namespace: kube-system

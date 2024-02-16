@@ -7,7 +7,7 @@ parameters:
       labels:
         pod-security.kubernetes.io/warn: privileged
         pod-security.kubernetes.io/enforce: privileged
-      name: syn-driver-amdgpu
+      name: syn-feature-discovery
 
     charts:
       amd_gpu:
