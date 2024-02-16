@@ -1,5 +1,33 @@
 parameters:
+  =_config:
+    discovery:
+      'True':
+        input_paths:
+          - ${_base_directory}/helmcharts/node-feature-discovery/${driver_amdgpu:charts:feature_discovery:version}
+        input_type: helm
+        output_path: driver-amdgpu//10_helmchart
+        helm_values: ${driver_amdgpu:helmValues:discovery}
+        helm_params:
+          name: feature-discovery
+          namespace: ${driver_amdgpu:namespace:name}
+      'False':
+        input_paths: []
+        input_type: jsonnet
+        output_path: ''
+
   kapitan:
+    dependencies:
+      - type: helm
+        source: ${driver_amdgpu:charts:feature_discovery:source}
+        chart_name: node-feature-discovery
+        version: ${driver_amdgpu:charts:feature_discovery:version}
+        output_path: ${_base_directory}/helmcharts/node-feature-discovery/${driver_amdgpu:charts:feature_discovery:version}/
+      - type: helm
+        source: ${driver_amdgpu:charts:amd_gpu:source}
+        chart_name: amd-gpu
+        version: ${driver_amdgpu:charts:amd_gpu:version}
+        output_path: ${_base_directory}/helmcharts/amd-gpu/${driver_amdgpu:charts:amd_gpu:version}/
+
     compile:
       - input_paths:
           - ${_base_directory}/component/app.jsonnet
@@ -9,3 +37,13 @@ parameters:
           - ${_base_directory}/component/main.jsonnet
         input_type: jsonnet
         output_path: driver-amdgpu/
+      # Helmchart
+      - ${_config:discovery:${driver_amdgpu:discovery:enabled}}
+      - input_paths:
+          - ${_base_directory}/helmcharts/amd-gpu/${driver_amdgpu:charts:amd_gpu:version}
+        input_type: helm
+        output_path: driver-amdgpu//10_helmchart
+        helm_values: ${driver_amdgpu:helmValues:amdgpu}
+        helm_params:
+          name: amd-gpu
+          namespace: ${driver_amdgpu:namespace:name}

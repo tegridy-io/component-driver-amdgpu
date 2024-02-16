@@ -1,4 +1,54 @@
 parameters:
   driver_amdgpu:
     =_metadata: {}
-    namespace: syn-driver-amdgpu
+
+    namespace:
+      annotations: {}
+      labels:
+        pod-security.kubernetes.io/warn: privileged
+        pod-security.kubernetes.io/enforce: privileged
+      name: syn-driver-amdgpu
+
+    charts:
+      amd_gpu:
+        source: https://rocm.github.io/k8s-device-plugin/
+        version: 0.12.0
+      feature_discovery:
+        source: https://kubernetes-sigs.github.io/node-feature-discovery/charts
+        version: 0.15.1
+
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+
+    nodeSelector:
+      kubernetes.io/arch: amd64
+
+    discovery:
+      enabled: false
+      config:
+        core:
+          sources:
+            - custom
+        sources:
+          custom:
+            - name: amd-gpu
+              labels:
+                feature.node.kubernetes.io/gpu: amd
+              matchFeatures:
+                - feature: pci.device
+                  matchExpressions:
+                    vendor: {op: In, value: ["1002"]}
+                    class: {op: In, value: ["0300"]}
+                    ## AMD Cezanne / Vega Integrated GPU
+                    # device: {op: In, value: ["1638"]}
+
+    helmValues:
+      amdgpu:
+        tolerations: ${driver_amdgpu:tolerations}
+        node_selector: ${driver_amdgpu:nodeSelector}
+
+      discovery:
+        fullnameOverride: feature-discovery
+        worker:
+          config: ${driver_amdgpu:discovery:config}
