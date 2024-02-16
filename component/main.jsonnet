@@ -14,5 +14,5 @@ local namespace = kube.Namespace(params.namespace.name) {
 
 // Define outputs below
 {
-  '00_namespace': namespace,
+  [if params.discovery.enabled then '00_namespace']: namespace,
 }
