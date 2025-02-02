@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: amd-gpu-device-plugin-daemonset
-  namespace: kube-system
 spec:
   selector:
     matchLabels:
@@ -13,7 +12,7 @@ spec:
         name: amd-gpu-dp-ds
     spec:
       containers:
-        - image: docker.io/rocm/k8s-device-plugin:1.25.2.7
+        - image: docker.io/rocm/k8s-device-plugin:1.31.0.2
           name: amd-gpu-dp-cntr
           resources: {}
           securityContext:
