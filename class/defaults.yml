@@ -13,7 +13,7 @@ parameters:
     charts:
       amd_gpu:
         source: https://rocm.github.io/k8s-device-plugin/
-        version: 0.12.0
+        version: 0.16.0
       feature_discovery:
         source: https://kubernetes-sigs.github.io/node-feature-discovery/charts
         version: 0.17.1
